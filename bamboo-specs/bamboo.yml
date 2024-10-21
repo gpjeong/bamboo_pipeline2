@@ -1,0 +1,22 @@
+---
+version: 2
+plan:
+  project-key: TKP     # 프로젝트 키 (예: DEMO)
+  key: TEST6              # 플랜 키 (예: TEST)
+  name: Test Artifact Job
+stages:
+  - name: Build and Create Artifact
+    jobs:
+      - key: BUILD
+        name: Create test.txt Artifact
+        tasks:
+          - script: 
+              description: Create test.txt File
+              script:
+                - echo "This is a test file." > test.txt
+        artifacts:
+          - name: Test Artifact
+            copy-pattern: "test.txt"   # 생성한 파일을 아티팩트로 저장
+            location: "."              # 현재 디렉터리에서 파일 찾기
+        final-tasks:
+          - clean-working-directory  # 빌드가 끝난 후 작업 디렉터리 정리
